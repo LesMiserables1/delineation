@@ -7,61 +7,47 @@ import { useHover } from "react-native-web-hooks";
 import SignatureScreen from 'react-native-signature-canvas';
 // const socket = require('engine.io-client')('ws://localhost');
 // import socket from '@types/engine.io-client'
-import socketio from 'socket.io-client';
+// import socketio from 'socket.io-client';
 // import WebSocket from '@types/ws';
+import socketIO from 'socket.io-client';
 
 export default function App() {
   	const isHovered = useHover(ref);
 	const ref = useRef();
 
 	useEffect(() => {
-		console.log('Dodo baik banget')
-		const ws = socketio('localhost:8080');
-		// ws.on('open', () => {
-		// 	console.log('Andre jaat')
-		// 	ws.send('something');
-		// 	// ws.on('message', (data) => { console.log('UWUUU') });
-		// 	// ws.on('close', () => {});
-		// });
-		ws.on('open', 'HAHAHAH', (error) => {
-			console.log('Andre jaat')
-            if(error) console.log(error)
-		});
-		ws.emit('join', { title: 'Heloo' }, (error) => {
-			console.log('Andre jaat')
-            if(error) console.log(error)
-		});
-		
-		ws.emit('sendMessage', 'HAHAH', () => {
-			console.log('Andre jaat2x')
-		})
-		// const ws = new WebSocket('ws://localhost:8080');
-		// 	ws.on('open', function open() {
-		// 	ws.send('something');
-		// });
 
-		// ws.on('message', function incoming(data) {
-		// 	console.log(`received: ${data}`);
-		// });
+		console.log('Hi')
+		const socket = socketIO('ws://127.0.0.1:8080', {      
+		transports: ['websocket'], jsonp: false });   
+		// console.log(socket)
+
+		socket.on('error', function() {
+			console.log('Hmm')
+		});
+		socket.connect(); 
+		socket.on('connect', () => { 
+			console.log('connected to socket server'); 
+		}); 
 	}, [])
 
-	const handleSignature = signature => {
-		console.log(signature);
-		// onOK(signature);
-		// console.log(img)
-	};
+	// const handleSignature = signature => {
+	// 	console.log(signature);
+	// 	// onOK(signature);
+	// 	// console.log(img)
+	// };
 
-	const handleEmpty = () => {
-		console.log('Empty');
-	}
+	// const handleEmpty = () => {
+	// 	console.log('Empty');
+	// }
 
-	const handleClear = () => {
-		console.log('clear success!');
-	}
+	// const handleClear = () => {
+	// 	console.log('clear success!');
+	// }
 
-	const handleEnd = () => {
-		ref.current.readSignature();
-	}
+	// const handleEnd = () => {
+	// 	ref.current.readSignature();
+	// }
 
   return (
     <View style={tailwind('bg-brown flex-1 items-center justify-center hover:bg-orange', { hover: isHovered })}>
@@ -69,16 +55,15 @@ export default function App() {
 		<StatusBar style="auto" /> */}
 		{/* <Canvas ref={this.handleCanvas} /> */}
 		{/* <canvas></canvas> */}
-		<SignatureScreen
+		{/* <SignatureScreen
 			ref={ref}
-			// onEnd={handleEnd}
-			onEnd={handleSignature}
-			// onOK={handleSignature}
+			onEnd={handleEnd}
+			onOK={handleSignature}
 			onEmpty={handleEmpty}
 			onClear={handleClear}
 			autoClear={false}
 			descriptionText="Draw Here"
-		/>
+		/> */}
     </View>
   );
 }
