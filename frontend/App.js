@@ -18,7 +18,7 @@ export default function App() {
 	useEffect(() => {
 
 		console.log('Hi')
-		const socket = socketIO('ws://127.0.0.1:8080', {      
+		const socket = socketIO('ws://localhost:8080', {      
 		transports: ['websocket'], jsonp: false });   
 		// console.log(socket)
 
@@ -29,6 +29,10 @@ export default function App() {
 		socket.on('connect', () => { 
 			console.log('connected to socket server'); 
 		}); 
+		socket.on('message',(msg)=>{
+			socket.emit("")
+			console.log(msg)
+		})
 	}, [])
 
 	// const handleSignature = signature => {
