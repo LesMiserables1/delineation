@@ -111,7 +111,7 @@ const Canvas = (props) => {
     return (
         <>
             <canvas ref={canvasRef} {...props}/>
-            <button onClick={() => socket.send('halo')}>Klik</button>        
+            {/* <button onClick={() => socket.send('halo')}>Klik</button>         */}
         </>
     )
 }
