@@ -4,7 +4,7 @@ import Canvas from './components/Canvas';
 
 function App() {
   
-  const socket = new WebSocket('wss://ws-pjpb.herokuapp.com/');
+  const socket = new WebSocket('ws://localhost:3001');
 
   return (
     <div className="App">
