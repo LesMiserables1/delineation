@@ -25,16 +25,6 @@ export default function App() {
 
         socket.onmessage = ({data}) => {
 			console.log('Data Masuk', data)
-			// console.log(ref.current)
-			// console.log(ref.curent.value)
-			// ref.current.value = data
-            // console.log('Data masuk', data);
-
-            // this.setState({echo: data});
-
-            // setTimeout(() => {
-            //     socket.send(new Date().toGMTString());
-            // }, 3000);
         } 
 	}, [])
 
