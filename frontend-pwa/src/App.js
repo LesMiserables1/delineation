@@ -8,7 +8,7 @@ function App() {
 
   return (
     <div className="App">
-      <Canvas />
+      <Canvas height={500} width={500} />
     </div>
   );
 }
