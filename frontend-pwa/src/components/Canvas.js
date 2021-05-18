@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 
-const Canvas = (props) => {
+const Canvas = ({height, width, socket}) => {
     const canvasRef = useRef(null)
-    var socket = new WebSocket('ws://localhost:3001');
-
+    // const socket = new WebSocket('wss://ws-pjpb.herokuapp.com/');
+    // console.log(socket)
     const [isPainting, setIsPainting] = useState(false);
     const [mousePosition, setMousePosition] = useState();
 
@@ -11,15 +11,23 @@ const Canvas = (props) => {
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
         if(context) {
-            context.canvas.width = props.width;
-            context.canvas.height = props.height;
+            context.canvas.width = width;
+            context.canvas.height = height;
 
             context.lineWidth = "2";
             context.strokeStyle = "#A00000";
-            context.strokeRect(0, 0, props.width, props.height);
+            context.strokeRect(0, 0, width, height);
         }
-        socket.onopen = () => socket.send(new Date().toGMTString());
-
+        // socket.onopen = () => {
+        //     console.log('Hi')
+        //     socket.send(new Date().toGMTString());
+        // }
+        socket.onmessage = ({data}) => {
+            data = JSON.parse(data)
+            console.log(data)
+            drawLine(data.mousePosition,data.newMousePosition);
+            setMousePosition(data.newMousePosition);
+        }
 
     }, [])
 
@@ -50,15 +58,15 @@ const Canvas = (props) => {
                 const newMousePosition = getCoordinates(event);
                 if (mousePosition && newMousePosition) {
                     
-                    socket.onopen = () => {
+                    // socket.onopen = () => {
                         socket.send(JSON.stringify({mousePosition,newMousePosition}))
                         console.log(mousePosition)
-                    }
-                    socket.onmessage = ({data}) => {
-                        data = JSON.parse(data)
-                        drawLine(data.mousePosition,data.newMousePosition);
-                        setMousePosition(data.newMousePosition);
-                    }             
+                    // }
+                    // socket.onmessage = ({data}) => {
+                    //     data = JSON.parse(data)
+                    //     drawLine(data.mousePosition,data.newMousePosition);
+                    //     setMousePosition(data.newMousePosition);
+                    // }             
 
                     drawLine(mousePosition, newMousePosition);
                     setMousePosition(newMousePosition);
@@ -128,7 +136,7 @@ const Canvas = (props) => {
 
     return (
         <>
-            <canvas ref={canvasRef} {...props}/>
+            <canvas ref={canvasRef} />
             {/* <button onClick={() => socket.send('halo')}>Klik</button>         */}
         </>
     )
