@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 
 const Canvas = (props) => {
     const canvasRef = useRef(null)
+    var socket = new WebSocket('ws://localhost:3001');
+
     const [isPainting, setIsPainting] = useState(false);
     const [mousePosition, setMousePosition] = useState();
 
@@ -16,6 +18,9 @@ const Canvas = (props) => {
             context.strokeStyle = "#A00000";
             context.strokeRect(0, 0, props.width, props.height);
         }
+        socket.onopen = () => socket.send(new Date().toGMTString());
+
+
     }, [])
 
     const startPaint = useCallback((event) => {
@@ -32,16 +37,29 @@ const Canvas = (props) => {
         }
         const canvas = canvasRef.current;
         canvas.addEventListener('mousedown', startPaint);
+
+
         return () => {
             canvas.removeEventListener('mousedown', startPaint);
         };
     }, [startPaint]);
-
+    
     const paint = useCallback(
         (event) => {
             if (isPainting) {
                 const newMousePosition = getCoordinates(event);
                 if (mousePosition && newMousePosition) {
+                    
+                    socket.onopen = () => {
+                        socket.send(JSON.stringify({mousePosition,newMousePosition}))
+                        console.log(mousePosition)
+                    }
+                    socket.onmessage = ({data}) => {
+                        data = JSON.parse(data)
+                        drawLine(data.mousePosition,data.newMousePosition);
+                        setMousePosition(data.newMousePosition);
+                    }             
+
                     drawLine(mousePosition, newMousePosition);
                     setMousePosition(newMousePosition);
                 }
