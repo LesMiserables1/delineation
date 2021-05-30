@@ -133,7 +133,7 @@ const Canvas = ({height, width, socket}) => {
 
     return (
         <>
-            <canvas ref={canvasRef} />
+            <canvas ref={canvasRef} className="mx-auto" />
             {/* <button onClick={() => socket.send('halo')}>Klik</button>         */}
         </>
     )
