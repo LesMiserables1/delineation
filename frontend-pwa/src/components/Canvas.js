@@ -19,12 +19,10 @@ const Canvas = ({height, width, socket}) => {
             context.strokeRect(0, 0, width, height);
         }
         // socket.onopen = () => {
-        //     console.log('Hi')
         //     socket.send(new Date().toGMTString());
         // }
         socket.onmessage = ({data}) => {
             data = JSON.parse(data)
-            console.log(data)
             drawLine(data.mousePosition,data.newMousePosition);
             setMousePosition(data.newMousePosition);
         }
@@ -60,7 +58,6 @@ const Canvas = ({height, width, socket}) => {
                     
                     // socket.onopen = () => {
                         socket.send(JSON.stringify({mousePosition,newMousePosition}))
-                        console.log(mousePosition)
                     // }
                     // socket.onmessage = ({data}) => {
                     //     data = JSON.parse(data)

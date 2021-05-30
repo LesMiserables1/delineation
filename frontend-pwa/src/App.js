@@ -1,6 +1,8 @@
 import './App.css';
 import './tailwind.css'
 import Canvas from './components/Canvas';
+import Header from './components/Header';
+import Container from './components/Container';
 
 function App() {
   
@@ -8,7 +10,10 @@ function App() {
 
   return (
     <div className="App">
-      <Canvas height={500} width={500} socket={socket} />
+      <Container>
+        <Header text="delineation" />
+        <Canvas height={500} width={500} socket={socket} />
+      </Container>
     </div>
   );
 }
