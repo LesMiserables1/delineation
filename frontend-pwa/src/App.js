@@ -10,10 +10,10 @@ function App() {
 
   return (
     <div className="App">
-      <Container>
+      <>
         <Header text="delineation" />
         <Canvas height={500} width={500} socket={socket} />
-      </Container>
+      </>
     </div>
   );
 }
