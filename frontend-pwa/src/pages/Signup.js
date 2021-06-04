@@ -7,6 +7,7 @@ import axios from 'axios';
 const Signup = (props) => {
 
     const [formData, setFormData] = useState({
+        name: '',
         username: '',
         password: ''
     })
@@ -19,7 +20,7 @@ const Signup = (props) => {
     }
 
     const signup = () => {
-        axios.post(`http://localhost:3001/api/register`, {
+        axios.post(`http://localhost:3002/register`, {
             username: formData.username,
             password: formData.password
         })
@@ -35,12 +36,20 @@ const Signup = (props) => {
             <div className="w-fit-content">
                 <Header text="signup" />
                 <Input 
+                    name="name" 
+                    type="text" 
+                    onChange={handleFormChange} 
+                    className="w-64 sm:w-72"
+                    value={formData.name} 
+                    placeholder="Please enter your name..."
+                />
+                <Input 
                     name="username" 
                     type="text" 
                     onChange={handleFormChange} 
                     className="w-64 sm:w-72"
                     value={formData.username} 
-                    placeholder="Search for any username..."
+                    placeholder="Please enter your username..."
                 />
                 <Input 
                     name="password" 

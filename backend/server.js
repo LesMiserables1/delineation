@@ -10,6 +10,7 @@ app.post('/register',async(req,res)=>{
     let passwordHash = crypto.createHash('sha256').update(body.password).digest('base64')
     try {
         let user = await models.user.create({
+            "name": body.name,
             "username": body.username,
             "password": passwordHash,
         })
@@ -47,4 +48,4 @@ app.post('/login',async(req,res)=>{
         "status": "failed"
     })
 })
-app.listen(3000)
+app.listen(3002)

@@ -18,7 +18,7 @@ const Login = (props) => {
     }
 
     const login = () => {
-        axios.post(`http://localhost:3001/api/login`, {
+        axios.post(`http://localhost:3002/login`, {
             username: formData.username,
             password: formData.password
         })
@@ -39,7 +39,7 @@ const Login = (props) => {
                     onChange={handleFormChange} 
                     className="w-64 sm:w-72"
                     value={formData.username} 
-                    placeholder="Search for any username..."
+                    placeholder="Please enter your username..."
                 />
                 <Input 
                     name="password" 
