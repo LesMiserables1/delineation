@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import Header from '../components/ui/Header';
 import Input from '../components/form/Input';
 import Button from '../components/form/Button'
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setIsLoggedIn } from '../actions/action';
 
 const Login = (props) => {
+    const dispatch = useCallback(useDispatch(), []);
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -23,7 +26,8 @@ const Login = (props) => {
             password: formData.password
         })
             .then(res => {
-                if(res.status === 'ok') {
+                if(res.data.status === 'ok') {
+                    dispatch(setIsLoggedIn(true))
                     props.history.push('/')
                 }
             })

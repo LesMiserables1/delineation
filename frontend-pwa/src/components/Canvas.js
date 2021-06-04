@@ -18,8 +18,9 @@ const Canvas = ({height, width, socket}) => {
         (event) => {
             if (isPainting) {
                 const newMousePosition = getCoordinates(event);
+                const roomNumber = localStorage.getItem('roomNumber')
                 if (mousePosition && newMousePosition) {
-                    socket.send(JSON.stringify({mousePosition,newMousePosition}))         
+                    socket.send(JSON.stringify({roomNumber,mousePosition,newMousePosition}))         
                     drawLine(mousePosition, newMousePosition);
                     setMousePosition(newMousePosition);
                 }

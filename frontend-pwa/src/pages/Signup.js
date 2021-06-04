@@ -21,11 +21,12 @@ const Signup = (props) => {
 
     const signup = () => {
         axios.post(`http://localhost:3002/register`, {
+            name: formData.name,
             username: formData.username,
             password: formData.password
         })
             .then(res => {
-                if(res.status === 'ok') {
+                if(res.data.status === 'ok') {
                     props.history.push('/login')
                 }
             })
