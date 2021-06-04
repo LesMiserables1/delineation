@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import Header from '../components/ui/Header';
 import Input from '../components/form/Input';
-import Button from '../components/form/Button'
+import Button from '../components/form/Button';
+import axios from 'axios';
 
-const Signup = () => {
+const Signup = (props) => {
 
     const [formData, setFormData] = useState({
         username: '',
@@ -18,7 +19,15 @@ const Signup = () => {
     }
 
     const signup = () => {
-        
+        axios.post(`http://localhost:3001/api/register`, {
+            username: formData.username,
+            password: formData.password
+        })
+            .then(res => {
+                if(res.status === 'ok') {
+                    props.history.push('/login')
+                }
+            })
     }
 
     return (
