@@ -48,4 +48,4 @@ app.post('/login',async(req,res)=>{
         "status": "failed"
     })
 })
-app.listen(3002)
+app.listen(config.port)
