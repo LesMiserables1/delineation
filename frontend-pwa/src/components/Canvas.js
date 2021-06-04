@@ -5,6 +5,7 @@ const Canvas = ({height, width, socket}) => {
     const canvasRef = useRef(null)
     const [isPainting, setIsPainting] = useState(false);
     const [mousePosition, setMousePosition] = useState();
+    const roomNumber = localStorage.getItem('roomNumber')
 
     const startPaint = useCallback((event) => {
         const coordinates = getCoordinates(event);
@@ -18,7 +19,6 @@ const Canvas = ({height, width, socket}) => {
         (event) => {
             if (isPainting) {
                 const newMousePosition = getCoordinates(event);
-                const roomNumber = localStorage.getItem('roomNumber')
                 if (mousePosition && newMousePosition) {
                     socket.send(JSON.stringify({roomNumber,mousePosition,newMousePosition}))         
                     drawLine(mousePosition, newMousePosition);
@@ -53,8 +53,10 @@ const Canvas = ({height, width, socket}) => {
                 context.clearRect(1, 1, width-2, height-2);
                 return;
             }
-            drawLine(data.mousePosition,data.newMousePosition);
-            setMousePosition(data.newMousePosition);
+            else if(roomNumber === data.roomNumber) {
+                drawLine(data.mousePosition,data.newMousePosition);
+                setMousePosition(data.newMousePosition);
+            }
         }
 
     }, [])
