@@ -1,11 +1,37 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
+import Button from './form/Button';
 
 const Canvas = ({height, width, socket}) => {
     const canvasRef = useRef(null)
-    // const socket = new WebSocket('wss://ws-pjpb.herokuapp.com/');
-    // console.log(socket)
     const [isPainting, setIsPainting] = useState(false);
     const [mousePosition, setMousePosition] = useState();
+
+    const startPaint = useCallback((event) => {
+        const coordinates = getCoordinates(event);
+        if (coordinates) {
+            setMousePosition(coordinates);
+            setIsPainting(true);
+        }
+    }, []);
+    
+    const paint = useCallback(
+        (event) => {
+            if (isPainting) {
+                const newMousePosition = getCoordinates(event);
+                if (mousePosition && newMousePosition) {
+                    socket.send(JSON.stringify({mousePosition,newMousePosition}))         
+                    drawLine(mousePosition, newMousePosition);
+                    setMousePosition(newMousePosition);
+                }
+            }
+        },
+        [isPainting, mousePosition]
+    );
+
+    const exitPaint = useCallback(() => {
+        setIsPainting(false);
+        setMousePosition(undefined);
+    }, []);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -18,65 +44,29 @@ const Canvas = ({height, width, socket}) => {
             context.strokeStyle = "#A00000";
             context.strokeRect(0, 0, width, height);
         }
-        // socket.onopen = () => {
-        //     socket.send(new Date().toGMTString());
-        // }
         socket.onmessage = ({data}) => {
             data = JSON.parse(data)
+            if(data.clear) {
+                const canvas = canvasRef.current;
+                const context = canvas.getContext('2d');
+                context.clearRect(1, 1, width-2, height-2);
+                return;
+            }
             drawLine(data.mousePosition,data.newMousePosition);
             setMousePosition(data.newMousePosition);
         }
 
     }, [])
 
-    const startPaint = useCallback((event) => {
-        const coordinates = getCoordinates(event);
-        if (coordinates) {
-            setMousePosition(coordinates);
-            setIsPainting(true);
-        }
-    }, []);
-
     useEffect(() => {
-        if (!canvasRef.current) {
-            return;
-        }
         const canvas = canvasRef.current;
         canvas.addEventListener('mousedown', startPaint);
-
-
         return () => {
             canvas.removeEventListener('mousedown', startPaint);
         };
     }, [startPaint]);
-    
-    const paint = useCallback(
-        (event) => {
-            if (isPainting) {
-                const newMousePosition = getCoordinates(event);
-                if (mousePosition && newMousePosition) {
-                    
-                    // socket.onopen = () => {
-                        socket.send(JSON.stringify({mousePosition,newMousePosition}))
-                    // }
-                    // socket.onmessage = ({data}) => {
-                    //     data = JSON.parse(data)
-                    //     drawLine(data.mousePosition,data.newMousePosition);
-                    //     setMousePosition(data.newMousePosition);
-                    // }             
-
-                    drawLine(mousePosition, newMousePosition);
-                    setMousePosition(newMousePosition);
-                }
-            }
-        },
-        [isPainting, mousePosition]
-    );
 
     useEffect(() => {
-        if (!canvasRef.current) {
-            return;
-        }
         const canvas = canvasRef.current;
         canvas.addEventListener('mousemove', paint);
         return () => {
@@ -84,15 +74,7 @@ const Canvas = ({height, width, socket}) => {
         };
     }, [paint]);
 
-    const exitPaint = useCallback(() => {
-        setIsPainting(false);
-        setMousePosition(undefined);
-    }, []);
-
     useEffect(() => {
-        if (!canvasRef.current) {
-            return;
-        }
         const canvas = canvasRef.current;
         canvas.addEventListener('mouseup', exitPaint);
         canvas.addEventListener('mouseleave', exitPaint);
@@ -106,7 +88,6 @@ const Canvas = ({height, width, socket}) => {
         if (!canvasRef.current) {
             return;
         }
-
         const canvas = canvasRef.current;
         return { x: event.pageX - canvas.offsetLeft, y: event.pageY - canvas.offsetTop };
     };
@@ -126,15 +107,28 @@ const Canvas = ({height, width, socket}) => {
             context.moveTo(originalMousePosition.x, originalMousePosition.y);
             context.lineTo(newMousePosition.x, newMousePosition.y);
             context.closePath();
-
             context.stroke();
         }
     };
 
+    const clearCanvas = () => {
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
+        context.clearRect(1, 1, width-2, height-2);
+        socket.send(JSON.stringify({clear: true}))         
+    }
+
+    const exitRoom = () => {
+        
+    }
+
     return (
-        <>
-            <canvas ref={canvasRef} className="mx-auto" />
-            {/* <button onClick={() => socket.send('halo')}>Klik</button>         */}
+        <>  
+            <canvas ref={canvasRef} className="mx-auto" /> 
+            <div className="flex items-center mt-5 justify-center">
+                <Button text="Clear Canvas" className="mr-2" clickHandler={clearCanvas} />  
+                <Button text="Exit Room" secondary={true} clickHandler={exitRoom} /> 
+            </div>   
         </>
     )
 }
