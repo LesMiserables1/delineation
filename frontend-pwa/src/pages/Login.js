@@ -1,17 +1,25 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Header from '../components/ui/Header';
 import Input from '../components/form/Input';
 import Button from '../components/form/Button'
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setIsLoggedIn } from '../actions/action';
 
 const Login = (props) => {
     const dispatch = useCallback(useDispatch(), []);
+    const {auth: {isLoggedIn}} = useSelector(state => state);
     const [formData, setFormData] = useState({
         username: '',
         password: ''
     })
+
+    useEffect(() => {
+        console.log(isLoggedIn)
+        if(isLoggedIn) {
+            props.history.push('/')
+        }
+    }, [])
 
     const handleFormChange = (e) => {
         setFormData(prevState => ({

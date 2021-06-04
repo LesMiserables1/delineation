@@ -1,16 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../components/ui/Header';
 import Input from '../components/form/Input';
 import Button from '../components/form/Button';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const Signup = (props) => {
 
+    const {auth: {isLoggedIn}} = useSelector(state => state);
     const [formData, setFormData] = useState({
         name: '',
         username: '',
         password: ''
     })
+
+    useEffect(() => {
+        if(isLoggedIn) {
+            props.history.push('/')
+        }
+    }, [])
 
     const handleFormChange = (e) => {
         setFormData(prevState => ({

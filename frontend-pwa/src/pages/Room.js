@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Header from '../components/ui/Header';
 import Canvas from '../components/Canvas';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Room = (props) => {
     
