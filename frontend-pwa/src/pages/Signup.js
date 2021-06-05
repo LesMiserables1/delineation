@@ -1,15 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../components/ui/Header';
 import Input from '../components/form/Input';
 import Button from '../components/form/Button';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const Signup = (props) => {
 
+    const {auth: {isLoggedIn}} = useSelector(state => state);
     const [formData, setFormData] = useState({
+        name: '',
         username: '',
         password: ''
     })
+
+    useEffect(() => {
+        if(isLoggedIn) {
+            props.history.push('/')
+        }
+    }, [])
 
     const handleFormChange = (e) => {
         setFormData(prevState => ({
@@ -19,12 +28,13 @@ const Signup = (props) => {
     }
 
     const signup = () => {
-        axios.post(`http://localhost:3001/api/register`, {
+        axios.post(`http://localhost:3002/register`, {
+            name: formData.name,
             username: formData.username,
             password: formData.password
         })
             .then(res => {
-                if(res.status === 'ok') {
+                if(res.data.status === 'ok') {
                     props.history.push('/login')
                 }
             })
@@ -35,12 +45,20 @@ const Signup = (props) => {
             <div className="w-fit-content">
                 <Header text="signup" />
                 <Input 
+                    name="name" 
+                    type="text" 
+                    onChange={handleFormChange} 
+                    className="w-64 sm:w-72"
+                    value={formData.name} 
+                    placeholder="Please enter your name..."
+                />
+                <Input 
                     name="username" 
                     type="text" 
                     onChange={handleFormChange} 
                     className="w-64 sm:w-72"
                     value={formData.username} 
-                    placeholder="Search for any username..."
+                    placeholder="Please enter your username..."
                 />
                 <Input 
                     name="password" 

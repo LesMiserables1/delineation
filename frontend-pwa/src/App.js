@@ -7,6 +7,7 @@ import Room from './pages/Room';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
+import Navbar from './components/ui/Navbar';
 
 function App() {
   
@@ -14,6 +15,7 @@ function App() {
     <div className="App">
       <Container>
         <BrowserRouter>
+          <Navbar />
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/login" component={Login} exact />
