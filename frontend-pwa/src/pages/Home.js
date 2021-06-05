@@ -3,12 +3,13 @@ import Header from '../components/ui/Header';
 import Input from '../components/form/Input';
 import Button from '../components/form/Button'
 
-const Home = () => {
+const Home = (props) => {
 
     const [roomNumber, setRoomNumber] = useState('')
 
     const enterRoom = () => {
-        
+        localStorage.setItem('roomNumber', roomNumber);
+        props.history.push('/room')
     }
 
     return (
