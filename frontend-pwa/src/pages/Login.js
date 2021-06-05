@@ -37,7 +37,7 @@ const Login = (props) => {
                 if(res.data.status === 'ok') {
                     dispatch(setIsLoggedIn(true))
                     localStorage.setItem('token', res.data.token)
-                    props.history.push('/')
+                    props.history.push('/input-room')
                 }
             })
     }
