@@ -10,9 +10,9 @@ import { WebView } from 'react-native-webview';
 import Paint from './Paint'
 import Canvas from 'react-native-canvas';
 import { TouchableOpacity } from "react-native-gesture-handler";
-// import { SketchCanvas } from '@terrylinla/react-native-sketch-canvas';
-// import  {PanGestureHandler} from 'react-native-gesture-handler'
-// import { Draw, DrawRef } from "benjeau/react-native-draw";
+import { SketchCanvas } from '@terrylinla/react-native-sketch-canvas';
+import  {PanGestureHandler} from 'react-native-gesture-handler'
+import { Draw, DrawRef } from "benjeau/react-native-draw";
 
 export default function App() {
   	const isHovered = useHover(ref);
