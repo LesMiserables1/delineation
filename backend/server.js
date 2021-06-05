@@ -37,7 +37,6 @@ app.post('/login',async(req,res)=>{
     if (user) {
         let payload = {
             id: user.id,
-            role: user.role
         };
 
         let token = jwt.sign(payload, config.secret_key);
