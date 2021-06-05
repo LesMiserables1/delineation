@@ -4,7 +4,11 @@ const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const config = require('./config')
 const app = express()
+const cors = require('cors')
+
 app.use(express.json())
+app.use(cors())
+
 app.post('/register',async(req,res)=>{
     let body = req.body
     let passwordHash = crypto.createHash('sha256').update(body.password).digest('base64')
