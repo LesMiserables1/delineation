@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import './tailwind.css'
 import Container from './components/Container';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'

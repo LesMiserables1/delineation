@@ -1,10 +1,8 @@
 import React from 'react'
 
-const Header = () => {
+const Header = (props) => {
     return (
-        <div className="header">
-            <p> <b>DELINEATION </b> </p>
-        </div>
+        <h3 className="text-xl md:text-2xl font-bold uppercase text-orange">{props.text}</h3>
     )
 }
 
