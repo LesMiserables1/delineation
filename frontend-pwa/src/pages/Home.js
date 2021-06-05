@@ -14,7 +14,7 @@ const Home = (props) => {
 
     return (
         <>
-            <div className="h-full flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center h-full">
                 <div className="w-fit-content">
                     <Header text="Welcome" />
                     <Input 
