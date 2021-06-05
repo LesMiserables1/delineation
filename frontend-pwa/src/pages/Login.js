@@ -36,6 +36,7 @@ const Login = (props) => {
             .then(res => {
                 if(res.data.status === 'ok') {
                     dispatch(setIsLoggedIn(true))
+                    localStorage.setItem('token', res.data.token)
                     props.history.push('/')
                 }
             })
