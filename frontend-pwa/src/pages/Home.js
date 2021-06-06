@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback, Text, View, Stylesheet, Image}
 import Header from '../components/ui/Header';
 import Button from '../components/form/Button'
 
-
 const Home = (props) => {
 
     return (
@@ -14,8 +13,12 @@ const Home = (props) => {
                 <Button text="Join Room" className="w-full mt-5" clickHandler={Home} />
                 <br></br><br></br>
                 <p align="center"><b>Create Room</b></p>
-                <Button text="Register" className="w-full mt-1" clickHandler={Home} />
-                <Button text="Sign In" className="w-full mt-1" clickHandler={Home} />
+            <tr>   
+                <td></td>
+                <td><Button text="Register" className="w-full mt-1" clickHandler={Home} />
+                    <Button text="Sign In" className="w-full mt-1" clickHandler={Home} />
+                </td>
+            </tr>
             </div>
         </div>
     )
