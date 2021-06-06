@@ -8,6 +8,9 @@ const InputRoom = (props) => {
     const [roomNumber, setRoomNumber] = useState('')
 
     const enterRoom = () => {
+        if(!localStorage.getItem('token')) {
+            props.history.push('/login')
+        }
         localStorage.setItem('roomNumber', roomNumber);
         props.history.push('/room')
     }

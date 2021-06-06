@@ -38,7 +38,7 @@ const Navbar = (props) => {
                 hide ? (
                     <></>
                 ) : (
-                    <>
+                    <div className="absolute" style={{top: '20px', right: '20px'}}>
                         <NavLink to="/" className="text-orange mr-3 txt-lg font-bold">Home</NavLink>
                         <NavLink to="/input-room" className="text-orange mr-3 txt-lg font-bold">Input Room</NavLink>
                         {isLoggedIn ? (
@@ -49,7 +49,7 @@ const Navbar = (props) => {
                                 <NavLink to="/signup" className="text-orange txt-lg font-bold">Signup</NavLink>
                             </>
                         )}
-                    </>
+                    </div>
                 )
             }
             
